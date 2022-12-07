@@ -1,4 +1,3 @@
----
 - name: "configuration play"
   hosts: ubuntu
   user: ubuntu
