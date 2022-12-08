@@ -38,6 +38,7 @@ jobs:
       - run:
           name: Run Playbook and Configure server
           command: |
+            ssh-keyscan 34.205.247.106 >> ~/.ssh/known_hosts
             sudo ansible-playbook AnsibleConfig/main.yml -i AnsibleConfig/inventory.txt
 workflows:
   ansible-workflow: 
