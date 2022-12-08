@@ -38,9 +38,9 @@ jobs:
       - run:
           name: Run Playbook and Configure server
           command: |
-            sudo mkdir -p ~/.ssh            
-            sudo echo "3.223.125.8 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDkyYKR/4wgVeWtPY8PJPxfYaY16T3bdEsb1tDKo24Slg7wNCmZGcCsntUJeBS5Fk/y7QI6Ro/o8pJO4DXlnX/3zyfZi79uJMV+n3Kjq7zDAzjW9UCJa+wZ0ze/QapR/ceqD8nSTq7h+ov2p10SRBNmO0CdAvsxlaGa3ZuzrX7JBbXCT3sXk8ISQZzLKdWadjFf4/WbpiQ+xv4BIIrJFDT1eI3mRnK7DAKQwNsoM9e+C3WEd/WASKnf7kvJuc3MgDkGPM8nRmARB4Gi6iGdBe7LE6LrnJI5rgUrGOtIUbShRNNrFZsHDa/1PgvQmQok28FfQiYenTsr0Ot0r48P0weiPYJVdp1nu0HAlNqKth20QT7fvGkZhbLdGh4lT5iEZzoM2lhFMzGpy6NOgwtNpdTP0HLDva9YzddjS3Z9KhMEBjMSoL2HD5uj9DGUx6feaw7TmoMD890H72PDLeRMiBAtny51eix0gdwxWh11H4bYwra9uDP1vVmnHKfOtJ21+DM=" >> ~/.ssh/known_hosts
-            sudo ansible-playbook AnsibleConfig/main.yml -i AnsibleConfig/inventory.txt
+            mkdir -p ~/.ssh            
+            echo "3.223.125.8 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDkyYKR/4wgVeWtPY8PJPxfYaY16T3bdEsb1tDKo24Slg7wNCmZGcCsntUJeBS5Fk/y7QI6Ro/o8pJO4DXlnX/3zyfZi79uJMV+n3Kjq7zDAzjW9UCJa+wZ0ze/QapR/ceqD8nSTq7h+ov2p10SRBNmO0CdAvsxlaGa3ZuzrX7JBbXCT3sXk8ISQZzLKdWadjFf4/WbpiQ+xv4BIIrJFDT1eI3mRnK7DAKQwNsoM9e+C3WEd/WASKnf7kvJuc3MgDkGPM8nRmARB4Gi6iGdBe7LE6LrnJI5rgUrGOtIUbShRNNrFZsHDa/1PgvQmQok28FfQiYenTsr0Ot0r48P0weiPYJVdp1nu0HAlNqKth20QT7fvGkZhbLdGh4lT5iEZzoM2lhFMzGpy6NOgwtNpdTP0HLDva9YzddjS3Z9KhMEBjMSoL2HD5uj9DGUx6feaw7TmoMD890H72PDLeRMiBAtny51eix0gdwxWh11H4bYwra9uDP1vVmnHKfOtJ21+DM=" >> ~/.ssh/known_hosts
+            ansible-playbook AnsibleConfig/main.yml -i AnsibleConfig/inventory.txt
 workflows:
   ansible-workflow: 
     jobs:
