@@ -1,2 +1,2 @@
 [all]
-3.223.125.8
+3.223.125.8 ansible_user=ubuntu
