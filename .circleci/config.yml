@@ -32,14 +32,15 @@ jobs:
       - run:
           name: Install Ansible
           command: |
-            sudo apt --purge autoremove
-            sudo apt update
-            sudo apt install ansible
+            apt --purge autoremove
+            apt update
+            apt install ansible
       - run:
           name: Run Playbook and Configure server
           command: |
-            ssh-keyscan 34.205.247.106 >> ~/.ssh/known_hosts
-            sudo ansible-playbook AnsibleConfig/main.yml -i AnsibleConfig/inventory.txt
+            mkdir -p ~/.ssh            
+            echo "34.205.247.106 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCRd/31S9dlGcuzCUOf/pCrHjpe6p+H45GPOg4fEjrg6VoxNNktklAF+OMTtx12Lb9cbplcl4uqsBI7zFcBoSoE8XUgsbIE+OS9Hc9TSDIcgfCsBNaw0aFPsR9HvFzLQINRAGP07hFYGiR6qKVovGnEOuKsWFoz5OWowePk+blJEcfY2u7JdSbgPYdxqEVZa7csIBXNGYjXH4ivLm60ZjxTZms4egp1jDOmI+o/TfIm3jRCway84sWOV947vfd2x0QkvXpOi0/7RjWLYJaLg/kyec6wJVgqwGNlPQmKBDYkyyX/S3EiPzGgx4P/9EivlGUrT9UbBG5IGXURX/ILiMVN3f/fbjLysIRPo7oL2YrhynB2Yv/1AHJa5bfl5caXgUur8hKz6PvfsK51QmIvMKAtlfczmrK6yTw5lXaWL8Cd0HoEL/NVx2XUswuArKgiWa9Drz2i2w4oCRJcSwF/SGDZmq/ckUEtU2jyHrY35cEaGIfA8ITA6EsWcClWvRGS4ks=" >> ~/.ssh/known_hosts
+            ansible-playbook AnsibleConfig/main.yml -i AnsibleConfig/inventory.txt
 workflows:
   ansible-workflow: 
     jobs:
