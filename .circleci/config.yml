@@ -43,8 +43,9 @@ workflows:
   ansible-workflow: 
     jobs:
       - start-job
-      - create_infrastructure
-      - configure_infrastructure:
-          requires:
-            - create_infrastructure
+      # - create_infrastructure
+      - configure_infrastructure
+      # - configure_infrastructure:
+      #     requires:
+      #       - create_infrastructure
 
