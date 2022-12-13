@@ -72,16 +72,17 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Get list of files in current directory
+          command: |
+            ll
+      - run:
           name: Execute bucket.yml - Create Cloudformation Stack
           command: |
             aws cloudformation deploy \
-            --template-file CloudFormation/bucket.yml \
+            --template-file bucket.yml \
             --stack-name stack-create-bucket-q12 \
             --parameter-overrides MyBucketName="mybucket-1212"
-      # - run:
-      #     name: Get list of files in current directory
-      #     command: |
-      #       ll
+
       # - run: aws s3 sync ./webpages s3://mybucket-${CIRCLE_WORKFLOW_ID:0:7} --delete            
 
   promote_to_production:
