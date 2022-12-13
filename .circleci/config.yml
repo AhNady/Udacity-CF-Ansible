@@ -104,7 +104,7 @@ workflows:
   ansible-workflow: 
     jobs:
       - start-job
-      # - create_infrastructure
+      - create_infrastructure
       # - smoke_test:
       #     requires:
       #       - create_infrastructure
@@ -112,4 +112,4 @@ workflows:
       # - configure_infrastructure:
       #     requires:
       #       - create_infrastructure
-      - create_and_deploy_front_end
+      # - create_and_deploy_front_end
