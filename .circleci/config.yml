@@ -1,5 +1,4 @@
 version: 2.1
-
 commands:
    # Exercise - Rollback
    destroy_environment:
@@ -66,16 +65,49 @@ jobs:
             mkdir -p ~/.ssh            
             echo "3.223.125.8 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDkyYKR/4wgVeWtPY8PJPxfYaY16T3bdEsb1tDKo24Slg7wNCmZGcCsntUJeBS5Fk/y7QI6Ro/o8pJO4DXlnX/3zyfZi79uJMV+n3Kjq7zDAzjW9UCJa+wZ0ze/QapR/ceqD8nSTq7h+ov2p10SRBNmO0CdAvsxlaGa3ZuzrX7JBbXCT3sXk8ISQZzLKdWadjFf4/WbpiQ+xv4BIIrJFDT1eI3mRnK7DAKQwNsoM9e+C3WEd/WASKnf7kvJuc3MgDkGPM8nRmARB4Gi6iGdBe7LE6LrnJI5rgUrGOtIUbShRNNrFZsHDa/1PgvQmQok28FfQiYenTsr0Ot0r48P0weiPYJVdp1nu0HAlNqKth20QT7fvGkZhbLdGh4lT5iEZzoM2lhFMzGpy6NOgwtNpdTP0HLDva9YzddjS3Z9KhMEBjMSoL2HD5uj9DGUx6feaw7TmoMD890H72PDLeRMiBAtny51eix0gdwxWh11H4bYwra9uDP1vVmnHKfOtJ21+DM=" >> ~/.ssh/known_hosts
             ansible-playbook AnsibleConfig/main.yml -i AnsibleConfig/inventory.txt
+
+  create_and_deploy_front_end:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Execute bucket.yml - Create Cloudformation Stack
+          command: |
+            aws cloudformation deploy \
+            --template-file bucket.yml \
+            --stack-name stack-create-bucket-${CIRCLE_WORKFLOW_ID:0:7} \
+            --parameter-overrides MyBucketName="mybucket-${CIRCLE_WORKFLOW_ID:0:7}
+      - run:
+          name: Get list of files in current directory
+          command: |
+            ll
+      - run: aws s3 sync ./webpages s3://mybucket-${CIRCLE_WORKFLOW_ID:0:7} --delete            
+
+  promote_to_production:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Execute cloudfront.yml
+          command: |
+            aws cloudformation deploy \
+            --template-file cloudfront.yml \
+            --stack-name production-distro \
+            --parameter-overrides PipelineID="mybucket-${CIRCLE_WORKFLOW_ID:0:7}" 
+
+
 workflows:
   ansible-workflow: 
     jobs:
       - start-job
-      - create_infrastructure
-      - smoke_test:
-          requires:
-            - create_infrastructure
+      # - create_infrastructure
+      # - smoke_test:
+      #     requires:
+      #       - create_infrastructure
       # - configure_infrastructure
       # - configure_infrastructure:
       #     requires:
       #       - create_infrastructure
-
+      - create_and_deploy_front_end
